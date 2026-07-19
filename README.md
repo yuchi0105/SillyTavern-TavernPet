@@ -52,7 +52,7 @@ GPT-4o / Gemini / Midjourney 等任何生圖 AI 的逐狀態 prompt。簡述：
    ```
 
 3. 看 `assets/pets/mypet/qa/` 裡的 contact-sheet 與 GIF 確認效果
-4. 在設定面板「自訂圖集」貼上圖集網址，或直接替換 `assets/pets/momousa/spritesheet.png`
+4. 在設定面板「自訂圖集」貼上圖集網址，或直接替換 `assets/pets/greenie/spritesheet.png`
 
 精靈圖規格與 openai/skills 的 [hatch-pet](https://github.com/openai/skills/tree/main/skills/.curated/hatch-pet)
 （Codex pet）完全相容——hatch-pet 產出的 `spritesheet.webp/png` 可直接使用。

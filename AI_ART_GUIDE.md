@@ -11,7 +11,7 @@
 4. **組裝**：跑 `python tools/build_atlas_from_rows.py rows --id mypet --name 寵物名`
 5. **檢查**：看輸出資料夾裡 `qa/contact-sheet.png` 與 `qa/preview-*.gif`
 6. **上場**：酒館設定面板「自訂圖集」填入圖集網址，或直接覆蓋
-   `assets/pets/momousa/spritesheet.png`
+   `assets/pets/greenie/spritesheet.png`
 
 ---
 
@@ -173,7 +173,7 @@ python tools/build_atlas_from_rows.py rows --id mypet --name 寵物名
 
 檢查 `qa/contact-sheet.png`（全列總覽）和 `qa/preview-*.gif`（動起來的樣子），
 滿意後到酒館設定面板「自訂圖集」貼上圖集網址，或直接覆蓋
-`assets/pets/momousa/spritesheet.png`。
+`assets/pets/greenie/spritesheet.png`。
 
 ## 📐 附錄：圖集規格（給想手動做圖的人）
 
