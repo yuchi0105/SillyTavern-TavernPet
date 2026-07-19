@@ -7,7 +7,7 @@
     "js": "index.js",
     "css": "style.css",
     "author": "TavernPet contributors",
-    "version": "0.1.0",
-    "homePage": "https://github.com/your-name/SillyTavern-TavernPet",
+    "version": "0.2.0",
+    "homePage": "https://github.com/yuchi0105/SillyTavern-TavernPet",
     "auto_update": true
 }

@@ -10,7 +10,8 @@
     z-index: 10000;
     width: 96px;
     height: 104px;
-    background-image: url(./assets/pets/greenie/spritesheet.png);
+    /* 預設圖僅為 JS 載入前的後備；實際圖集由 JS 依選擇的寵物設定 */
+    background-image: url(./assets/pets/momousa/spritesheet.png);
     background-repeat: no-repeat;
     /* background-size / background-position 由 JS 依尺寸與動畫格設定 */
     image-rendering: auto;
@@ -58,6 +59,11 @@
     min-width: 80px;
 }
 
+.tavernpet-setting-item select {
+    flex: 1;
+    min-width: 80px;
+}
+
 .tavernpet-setting-item .tavernpet-value-label {
     min-width: 50px;
     text-align: right;
@@ -75,4 +81,13 @@
 #tavernpet_reset_pos {
     width: 100%;
     margin-top: 4px;
+}
+
+#tavernpet_update {
+    flex: 1;
+    margin-top: 4px;
+}
+
+.tavernpet-update-status {
+    white-space: nowrap;
 }

@@ -12,6 +12,9 @@
     const MODULE_NAME = 'tavern_pet';
     const extensionName = 'SillyTavern-TavernPet';
 
+    // 擴充在瀏覽器端的靜態路徑（安裝於 third-party 目錄下）
+    const extensionBaseUrl = `/scripts/extensions/third-party/${extensionName}`;
+
     // ── 圖集規格（Codex pet contract） ──
     const ATLAS = { cols: 8, rows: 9, cellW: 192, cellH: 208 };
 
@@ -35,7 +38,8 @@
         opacity: 100,
         autoWalk: true,     // 自由活動（散步、東張西望）
         reactions: true,    // 酒館事件反應（生成中/回覆/中斷…）
-        customAtlas: '',    // 自訂精靈圖 URL，留空 = 預設桃兔
+        petId: 'momousa',   // 目前選用的寵物（assets/pets/ 下的資料夾名）
+        customAtlas: '',    // 自訂精靈圖 URL，留空 = 使用上面選擇的寵物
         posX: null,
         posY: null,
     };
@@ -75,6 +79,50 @@
 
     function saveSettings() {
         SillyTavern.getContext().saveSettingsDebounced();
+    }
+
+    // =====================================================
+    // 寵物圖鑑：assets/pets/pets.json 列出所有可選寵物。
+    // 新增寵物 = 放好 assets/pets/<id>/（pet.json + spritesheet.png）
+    // 再把 id 加進 pets.json，不用改程式。
+    // =====================================================
+    let petRegistry = []; // [{ id, displayName, description }]
+
+    function petSpritesheetUrl(petId) {
+        return `${extensionBaseUrl}/assets/pets/${encodeURIComponent(petId)}/spritesheet.png`;
+    }
+
+    async function loadPetRegistry() {
+        let ids = [];
+        try {
+            const res = await fetch(`${extensionBaseUrl}/assets/pets/pets.json`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            ids = Array.isArray(data) ? data : (data.pets ?? []);
+        } catch (err) {
+            console.warn(`[${extensionName}] 讀不到寵物清單，退回預設寵物`, err);
+            ids = [defaultSettings.petId];
+        }
+
+        petRegistry = [];
+        for (const id of ids) {
+            let meta = {};
+            try {
+                const res = await fetch(`${extensionBaseUrl}/assets/pets/${encodeURIComponent(id)}/pet.json`);
+                if (res.ok) meta = await res.json();
+            } catch { /* 沒有 pet.json 就用預設名稱 */ }
+            petRegistry.push({
+                id,
+                displayName: meta.displayName || id,
+                description: meta.description || '',
+            });
+        }
+
+        // 選中的寵物已不在清單裡（例如被移除）→ 退回第一隻
+        const settings = getSettings();
+        if (!petRegistry.some((p) => p.id === settings.petId)) {
+            settings.petId = petRegistry[0]?.id ?? defaultSettings.petId;
+        }
     }
 
     // ── 尺寸換算 ──
@@ -213,7 +261,7 @@
         petEl.style.backgroundSize = `${w * ATLAS.cols}px ${h * ATLAS.rows}px`;
         petEl.style.backgroundImage = settings.customAtlas
             ? `url("${settings.customAtlas.replace(/"/g, '%22')}")`
-            : '';
+            : `url("${petSpritesheetUrl(settings.petId)}")`;
         petEl.style.opacity = settings.opacity / 100;
         petEl.style.display = settings.enabled ? 'block' : 'none';
         if (!settings.enabled) stopWalk(false);
@@ -500,6 +548,77 @@
     }
 
     // =====================================================
+    // 一鍵更新：呼叫 SillyTavern 內建擴充 API 對本擴充 git pull，
+    // 不必刪除重裝。
+    // =====================================================
+    async function extensionsApi(endpoint) {
+        const context = SillyTavern.getContext();
+        if (typeof context.getRequestHeaders !== 'function') {
+            throw new Error('此版本的 SillyTavern 不支援（缺 getRequestHeaders）');
+        }
+        let lastError = null;
+        // 先試「只為我安裝」，失敗再試「所有使用者」（後者需管理員）
+        for (const global of [false, true]) {
+            try {
+                const res = await fetch(`/api/extensions/${endpoint}`, {
+                    method: 'POST',
+                    headers: context.getRequestHeaders(),
+                    body: JSON.stringify({ extensionName, global }),
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return await res.json();
+            } catch (err) {
+                lastError = err;
+            }
+        }
+        throw lastError;
+    }
+
+    async function initUpdateButton() {
+        const btn = document.querySelector('#tavernpet_update');
+        const statusEl = document.querySelector('#tavernpet_update_status');
+        if (!btn) return;
+        const setStatus = (text) => { if (statusEl) statusEl.textContent = text; };
+
+        btn.addEventListener('click', async () => {
+            btn.disabled = true;
+            btn.value = '⏳ 更新中…';
+            try {
+                const info = await extensionsApi('update');
+                if (info.isUpToDate) {
+                    setStatus(info.shortCommitHash ? `已是最新（${info.shortCommitHash}）` : '已是最新版本');
+                    window.toastr?.info('酒館桌寵已是最新版本');
+                    btn.value = '⬆️ 檢查更新';
+                } else {
+                    setStatus(info.shortCommitHash ? `已更新到 ${info.shortCommitHash}` : '更新完成');
+                    window.toastr?.success('更新完成！重新整理頁面後生效');
+                    btn.value = '✅ 已更新';
+                    if (confirm('酒館桌寵已更新完成，要現在重新整理頁面讓新版生效嗎？')) {
+                        location.reload();
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.error(`[${extensionName}] 更新失敗:`, err);
+                setStatus('更新失敗');
+                btn.value = '⬆️ 檢查更新';
+                window.toastr?.error('更新失敗：請到「擴充 → 管理擴充」手動更新，或稍後再試');
+            }
+            btn.disabled = false;
+        });
+
+        // 背景默默檢查一次有沒有新版本（失敗就靜靜略過）
+        try {
+            const ver = await extensionsApi('version');
+            if (ver.isUpToDate === false) {
+                btn.value = '⬆️ 有新版本，點我更新！';
+            } else if (ver.currentCommitHash) {
+                setStatus(`版本 ${String(ver.currentCommitHash).slice(0, 7)}`);
+            }
+        } catch { /* 離線或舊版 ST，不影響其他功能 */ }
+    }
+
+    // =====================================================
     // 設定面板
     // =====================================================
     async function initSettingsPanel() {
@@ -530,6 +649,25 @@
         bindCheckbox('#tavernpet_enabled', 'enabled');
         bindCheckbox('#tavernpet_autowalk', 'autoWalk');
         bindCheckbox('#tavernpet_reactions', 'reactions');
+
+        // 寵物選擇（選單內容來自 pets.json 圖鑑）
+        const petSel = $('#tavernpet_pet');
+        if (petSel) {
+            for (const pet of petRegistry) {
+                const opt = document.createElement('option');
+                opt.value = pet.id;
+                opt.textContent = pet.displayName;
+                if (pet.description) opt.title = pet.description;
+                petSel.appendChild(opt);
+            }
+            petSel.value = settings.petId;
+            petSel.addEventListener('change', () => {
+                settings.petId = petSel.value;
+                applySettings();
+                saveSettings();
+                playOnce('waving'); // 新登場的寵物打個招呼
+            });
+        }
 
         const sizeEl = $('#tavernpet_size');
         const sizeLabel = $('#tavernpet_size_value');
@@ -584,7 +722,9 @@
     try {
         const context = SillyTavern.getContext();
         getSettings();
+        await loadPetRegistry();
         await initSettingsPanel();
+        initUpdateButton(); // 背景檢查新版本，不阻擋載入
         createPet();
         bindTavernEvents(context);
 
@@ -593,6 +733,7 @@
             play: playOnce,
             walk: startWalk,
             setBusy: (v) => { busy = !!v; settle(); },
+            pets: () => petRegistry.map((p) => p.id),
             states: Object.keys(STATES),
         };
 
