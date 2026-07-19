@@ -1,0 +1,78 @@
+/* =====================================================
+   🐾 酒館桌寵 TavernPet — Styles
+   ===================================================== */
+
+/* ── 寵物本體 ── */
+#tavernpet {
+    position: fixed;
+    /* 10000：浮動 UI 層——蓋過抽屜/頂欄(3000~4005)，
+       但低於擴充選單 #extensionsMenu/#options(29999) */
+    z-index: 10000;
+    width: 96px;
+    height: 104px;
+    background-image: url(./assets/pets/momousa/spritesheet.png);
+    background-repeat: no-repeat;
+    /* background-size / background-position 由 JS 依尺寸與動畫格設定 */
+    image-rendering: auto;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: auto;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+}
+
+#tavernpet:hover {
+    filter: drop-shadow(0 5px 14px rgba(209, 133, 196, 0.5)) brightness(1.05);
+}
+
+#tavernpet.tavernpet-dragging {
+    cursor: grabbing;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.35));
+}
+
+/* ── 設定面板 ── */
+.tavernpet-setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 4px 0;
+}
+
+.tavernpet-setting-item label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    min-width: 100px;
+}
+
+.tavernpet-setting-item input[type="range"] {
+    flex: 1;
+    min-width: 80px;
+}
+
+.tavernpet-setting-item input[type="text"] {
+    flex: 1;
+    min-width: 80px;
+}
+
+.tavernpet-setting-item .tavernpet-value-label {
+    min-width: 50px;
+    text-align: right;
+    font-size: 0.85em;
+    opacity: 0.7;
+}
+
+.tavernpet-hint {
+    font-size: 0.8em;
+    opacity: 0.6;
+    margin: -4px 0 8px;
+    line-height: 1.4;
+}
+
+#tavernpet_reset_pos {
+    width: 100%;
+    margin-top: 4px;
+}
