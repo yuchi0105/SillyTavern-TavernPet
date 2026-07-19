@@ -1,0 +1,56 @@
+<div class="tavernpet_settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>🐾 酒館桌寵 TavernPet</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            <!-- 顯示開關 -->
+            <div class="tavernpet-setting-item">
+                <label for="tavernpet_enabled">
+                    <input type="checkbox" id="tavernpet_enabled" />
+                    <span>顯示桌寵</span>
+                </label>
+            </div>
+            <!-- 自由活動 -->
+            <div class="tavernpet-setting-item">
+                <label for="tavernpet_autowalk">
+                    <input type="checkbox" id="tavernpet_autowalk" />
+                    <span>自由活動（散步、發呆）</span>
+                </label>
+            </div>
+            <!-- 事件反應 -->
+            <div class="tavernpet-setting-item">
+                <label for="tavernpet_reactions">
+                    <input type="checkbox" id="tavernpet_reactions" />
+                    <span>酒館事件反應</span>
+                </label>
+            </div>
+            <!-- 大小 -->
+            <div class="tavernpet-setting-item">
+                <label>大小</label>
+                <input type="range" id="tavernpet_size" min="48" max="192" step="8" value="96" />
+                <span id="tavernpet_size_value" class="tavernpet-value-label">96px</span>
+            </div>
+            <!-- 透明度 -->
+            <div class="tavernpet-setting-item">
+                <label>透明度</label>
+                <input type="range" id="tavernpet_opacity" min="10" max="100" step="5" value="100" />
+                <span id="tavernpet_opacity_value" class="tavernpet-value-label">100%</span>
+            </div>
+            <!-- 自訂圖集 -->
+            <div class="tavernpet-setting-item">
+                <label>自訂圖集</label>
+                <input type="text" id="tavernpet_atlas" class="text_pole" placeholder="留空 = 預設桃兔" />
+            </div>
+            <div class="tavernpet-hint">
+                貼上任何 Codex pet 相容精靈圖 URL（8 欄 × 9 列、每格 192×208、透明背景），
+                例如用 openai/skills 的 hatch-pet 產出的 spritesheet。
+            </div>
+            <!-- 重置位置 -->
+            <div class="tavernpet-setting-item">
+                <input type="button" id="tavernpet_reset_pos" class="menu_button" value="🔄 重置位置" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TavernPet 預覽</title>
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(160deg, #2b2d31, #1e1f22);
+        color: #ddd;
+        font-family: system-ui, sans-serif;
+    }
+    .panel {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        max-width: 420px;
+        z-index: 99999;
+    }
+    button {
+        padding: 6px 10px;
+        border: 1px solid #555;
+        border-radius: 6px;
+        background: #3a3d42;
+        color: #ddd;
+        cursor: pointer;
+    }
+    button:hover { background: #4a4e55; }
+    #extensions_settings { display: none; }
+</style>
+</head>
+<body>
+<!-- 模擬 SillyTavern 全域環境（僅供本頁預覽） -->
+<script>
+    window.SillyTavern = {
+        getContext: () => ({
+            extensionSettings: (window.__fakeSettings ??= {}),
+            saveSettingsDebounced: () => {},
+            renderExtensionTemplateAsync: async () => '',
+            eventSource: { on: () => {} },
+            eventTypes: {},
+        }),
+    };
+</script>
+
+<div class="panel" id="panel">
+    <button data-act="walk">🚶 散步</button>
+    <button data-busy="1">⚙️ 模擬生成中</button>
+    <button data-busy="0">🛑 結束生成</button>
+</div>
+<div id="extensions_settings"></div>
+
+<link rel="stylesheet" href="../style.css" />
+<script src="../index.js"></script>
+<script>
+    // 等 TavernPet 初始化後補上各狀態按鈕
+    window.addEventListener('load', () => {
+        const panel = document.getElementById('panel');
+        for (const s of (window.TavernPet?.states ?? [])) {
+            const b = document.createElement('button');
+            b.textContent = s;
+            b.onclick = () => window.TavernPet.play(s, 2);
+            panel.appendChild(b);
+        }
+        panel.addEventListener('click', (e) => {
+            const t = e.target;
+            if (t.dataset.act === 'walk') window.TavernPet?.walk();
+            if (t.dataset.busy !== undefined) window.TavernPet?.setBusy(t.dataset.busy === '1');
+        });
+    });
+</script>
+</body>
+</html>

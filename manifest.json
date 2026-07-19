@@ -1,0 +1,13 @@
+{
+    "display_name": "🐾 酒館桌寵 TavernPet",
+    "loading_order": 100,
+    "requires": [],
+    "optional": [],
+    "dependencies": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "TavernPet contributors",
+    "version": "0.1.0",
+    "homePage": "https://github.com/your-name/SillyTavern-TavernPet",
+    "auto_update": true
+}
