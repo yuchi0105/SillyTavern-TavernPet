@@ -10,7 +10,7 @@
     z-index: 10000;
     width: 96px;
     height: 104px;
-    background-image: url(./assets/pets/momousa/spritesheet.png);
+    background-image: url(./assets/pets/greenie/spritesheet.png);
     background-repeat: no-repeat;
     /* background-size / background-position 由 JS 依尺寸與動畫格設定 */
     image-rendering: auto;
