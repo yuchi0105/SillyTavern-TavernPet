@@ -26,6 +26,14 @@
                     <span>酒館事件反應</span>
                 </label>
             </div>
+            <!-- 寵物選擇（選項由 assets/pets/pets.json 自動載入） -->
+            <div class="tavernpet-setting-item">
+                <label for="tavernpet_pet">寵物</label>
+                <select id="tavernpet_pet" class="text_pole"></select>
+            </div>
+            <div class="tavernpet-hint">
+                未來新增的寵物會自動出現在這個選單裡。
+            </div>
             <!-- 大小 -->
             <div class="tavernpet-setting-item">
                 <label>大小</label>
@@ -41,15 +49,20 @@
             <!-- 自訂圖集 -->
             <div class="tavernpet-setting-item">
                 <label>自訂圖集</label>
-                <input type="text" id="tavernpet_atlas" class="text_pole" placeholder="留空 = 預設桃兔" />
+                <input type="text" id="tavernpet_atlas" class="text_pole" placeholder="留空 = 用上面選的寵物" />
             </div>
             <div class="tavernpet-hint">
                 貼上任何 Codex pet 相容精靈圖 URL（8 欄 × 9 列、每格 192×208、透明背景），
-                例如用 openai/skills 的 hatch-pet 產出的 spritesheet。
+                例如用 openai/skills 的 hatch-pet 產出的 spritesheet。填了會蓋過上面的寵物選擇。
             </div>
             <!-- 重置位置 -->
             <div class="tavernpet-setting-item">
                 <input type="button" id="tavernpet_reset_pos" class="menu_button" value="🔄 重置位置" />
+            </div>
+            <!-- 一鍵更新 -->
+            <div class="tavernpet-setting-item">
+                <input type="button" id="tavernpet_update" class="menu_button" value="⬆️ 檢查更新" />
+                <span id="tavernpet_update_status" class="tavernpet-value-label tavernpet-update-status"></span>
             </div>
         </div>
     </div>

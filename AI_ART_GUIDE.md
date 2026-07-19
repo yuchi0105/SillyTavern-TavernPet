@@ -10,8 +10,8 @@
 3. **存檔**：把圖存進本專案的 `rows/` 資料夾，照指定檔名命名
 4. **組裝**：跑 `python tools/build_atlas_from_rows.py rows --id mypet --name 寵物名`
 5. **檢查**：看輸出資料夾裡 `qa/contact-sheet.png` 與 `qa/preview-*.gif`
-6. **上場**：酒館設定面板「自訂圖集」填入圖集網址，或直接覆蓋
-   `assets/pets/greenie/spritesheet.png`
+6. **上場**：把寵物 id 加進 `assets/pets/pets.json`，就會出現在
+   酒館設定面板的「寵物」選單裡（或用「自訂圖集」直接填圖集網址）
 
 ---
 
@@ -172,8 +172,8 @@ python tools/build_atlas_from_rows.py rows --id mypet --name 寵物名
 | 動作方向錯（如 running 變慢跑） | 把該狀態 prompt 的大寫警告再貼一次重生成 |
 
 檢查 `qa/contact-sheet.png`（全列總覽）和 `qa/preview-*.gif`（動起來的樣子），
-滿意後到酒館設定面板「自訂圖集」貼上圖集網址，或直接覆蓋
-`assets/pets/greenie/spritesheet.png`。
+滿意後把寵物 id 加進 `assets/pets/pets.json`，即可在酒館設定面板的
+「寵物」選單選用（或用「自訂圖集」直接貼圖集網址）。
 
 ## 📐 附錄：圖集規格（給想手動做圖的人）
 
