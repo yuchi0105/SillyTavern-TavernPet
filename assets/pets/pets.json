@@ -1,7 +1,6 @@
 {
     "_comment": "寵物清單。新增寵物：在 assets/pets/ 建立 <id>/ 資料夾（含 pet.json 與 spritesheet.png），再把 id 加進下面的陣列即可，不用改程式。",
     "pets": [
-        "momousa",
-        "stray"
+        "momousa"
     ]
 }
