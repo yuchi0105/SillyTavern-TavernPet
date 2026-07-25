@@ -79,7 +79,3 @@ GPT-4o / Gemini / Midjourney 等任何生圖 AI 的逐狀態 prompt。簡述：
 
 - 拖曳/定位/夾限邏輯參考 [SillyTavern-GreenGuaiGuai](https://github.com/Minijinai75/SillyTavern-GreenGuaiGuai)（MIT）
 - 精靈圖規格與動畫時長來自 [openai/skills hatch-pet](https://github.com/openai/skills/tree/main/skills/.curated/hatch-pet)
-
-## 📄 授權
-
-MIT License
