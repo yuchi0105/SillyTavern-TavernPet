@@ -7,3 +7,4 @@ pet-build/
 release/
 rows/*.png
 assets/pets/*/qa/
+assets/pets/*/validation.json
