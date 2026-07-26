@@ -1,0 +1,20 @@
+{
+  "id": "muchen",
+  "displayName": "江慕晨",
+  "romanizedName": "muchen",
+  "description": "深棕側分髮、金色下垂眼與右眼角下方淚痣的制服少年；配有奶茶色下垂狗耳與同色狗尾巴，無髮夾或髮飾。",
+  "spriteVersionNumber": 2,
+  "columns": 8,
+  "rows": 11,
+  "cellWidth": 192,
+  "cellHeight": 208,
+  "spritesheetPath": "spritesheet-extended.webp",
+  "spritesheetPngPath": "spritesheet-extended.png",
+  "stTavernPet": {
+    "spriteVersionNumber": 1,
+    "columns": 8,
+    "rows": 9,
+    "spritesheetPath": "spritesheet.webp",
+    "spritesheetPngPath": "spritesheet.png"
+  }
+}
